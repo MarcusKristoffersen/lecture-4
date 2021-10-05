@@ -5,14 +5,16 @@ HTTP request ser ut
 ## Repeat av lecture 2
 
 * [x] Maven
-* [ ] Github Actions
-* [ ] Working branch
-* [ ] Pull request
+* [x] Github Actions
+* [x] Working branch
+* [x] Pull request
+* [x] Test report
 
 ## Repeat av lecture 3: Socket, HTTP
 
-* [ ] Socket connects server
-* [ ] Status code
+* [x] Socket connects server
+* [x] Status code
+* [x] Header fields
 * [ ] Content-length
 * [ ] Message body
 

@@ -8,15 +8,18 @@ HTTP request ser ut
 * [x] Github Actions
 * [x] Working branch
 * [x] Pull request
-* [x] Test report
+* [x] Test report (Maven (--fail-at-end
+  - name: Publish test report
+  uses: scacap/action-surefire-report@v1
+  if: ${{ always () }}))
 
 ## Repeat av lecture 3: Socket, HTTP
 
 * [x] Socket connects server
 * [x] Status code
 * [x] Header fields
-* [ ] Content-length
-* [ ] Message body
+* [x] Content-length
+* [x] Message body
 
 ## TODAY: HttpServer
 

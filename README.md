@@ -1,6 +1,6 @@
 # Forelesning 4: Http server
 
-HTTP request ser ut 
+HTTP request ser ut
 
 ## Repeat av lecture 2
 

@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - lecture/*
-    pull_request:
-      branches:
-        - lecture/*
+  pull_request:
+    branches:
+      - lecture/*
 
 jobs:
   build:

@@ -4,7 +4,7 @@ HTTP request ser ut
 
 ## Repeat av lecture 2
 
-* [ ] Maven
+* [x] Maven
 * [ ] Github Actions
 * [ ] Working branch
 * [ ] Pull request

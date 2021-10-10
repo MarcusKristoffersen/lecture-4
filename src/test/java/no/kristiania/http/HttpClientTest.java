@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class HttpClientTest {
     @Test
     void ShouldDoSomething() {
-        assertEquals(200, 100+100);
+        assertEquals(200, 100 + 100);
     }
 
     @Test

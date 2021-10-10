@@ -33,8 +33,15 @@ public class HttpServerTest {
         assertAll(
                 () -> assertEquals(200, client.getStatusCode()),
                 () -> assertEquals("text/html", client.getHeader("Content-Type")),
-                () -> assertEquals("Hello world", client.getMessageBody())
+                () -> assertEquals("<p>Hello world</p>", client.getMessageBody())
         );
+    }
+
+    @Test
+    void shouldEchoQueryParameter() throws IOException {
+            HttpServer server = new HttpServer(0);
+            HttpClient client = new HttpClient("localhost", server.getPort(), "/hello?yourName=marcus");
+            assertEquals("<p>Hello marcus</p>", client.getMessageBody());
     }
 
     @Test
@@ -47,6 +54,19 @@ public class HttpServerTest {
 
         HttpClient client = new HttpClient("localhost", server.getPort(), "/example-file.txt");
         assertEquals(fileContent, client.getMessageBody());
+        assertEquals("text/plain", client.getHeader("Content-Type"));
     }
-    // Opptak 5, sluttet på 20 min igjen. Skulle gjøre om en index.html til å lese index.txt
+    @Test
+    void shouldUseFileExtensionForContentType() throws IOException {
+        HttpServer server = new HttpServer(0);
+        server.setRoot(Paths.get("target/test-classes"));
+
+        String fileContent = "<p>Hello</p> " + LocalTime.now();
+        Files.write(Paths.get("target/test-classes/example-file.html"), fileContent.getBytes());
+
+        HttpClient client = new HttpClient("localhost", server.getPort(), "/example-file.html");
+        assertEquals("text/html", client.getHeader("Content-Type"));
+
+    }
+
 }

@@ -55,14 +55,7 @@ public class HttpServer {
         if (fileTarget.equals("/hello")) {
             String yourName = "world";
             if (query != null) {
-                Map<String, String> queryMap = new HashMap<>();
-                for (String queryParameter : query.split("&")) {
-                    int equalsPos = queryParameter.indexOf('=');
-                    String parameterName = queryParameter.substring(0, equalsPos);
-                    String parameterValue = queryParameter.substring(equalsPos+1);
-                    queryMap.put(parameterName, parameterValue);
-                }
-
+                Map<String, String> queryMap = parseRequestParameters(query);
 
                 yourName = queryMap.get("lastName") + ", " + queryMap.get("firstName");
             }
@@ -99,6 +92,17 @@ public class HttpServer {
                 responseText;
         clientSocket.getOutputStream().write(response.getBytes());
     }
+    }
+
+    private Map<String, String> parseRequestParameters(String query) {
+        Map<String, String> queryMap = new HashMap<>();
+        for (String queryParameter : query.split("&")) {
+            int equalsPos = queryParameter.indexOf('=');
+            String parameterName = queryParameter.substring(0, equalsPos);
+            String parameterValue = queryParameter.substring(equalsPos+1);
+            queryMap.put(parameterName, parameterValue);
+        }
+        return queryMap;
     }
 
     private void writeOkResponse(Socket clientSocket, String responseText, String contentType) throws IOException {

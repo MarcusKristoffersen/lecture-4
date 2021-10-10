@@ -2,3 +2,11 @@ body {
 
     background: #55aa73;
 }
+
+main {
+    background: white;
+    padding: 0.5em 1em;
+    border-radius: 0.5em;
+    max-width: 40em;
+    margin: auto;
+}

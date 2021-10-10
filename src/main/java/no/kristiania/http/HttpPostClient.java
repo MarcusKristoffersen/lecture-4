@@ -3,12 +3,11 @@ package no.kristiania.http;
 import java.io.IOException;
 import java.net.Socket;
 
-public class HttpClient {
+public class HttpPostClient {
+    private final HttpMessage httpMessage;
     private final int statusCode;
-    private HttpMessage httpMessage;
-
-    public HttpClient(String host, int port, String requestTarget) throws IOException {
-        Socket socket = new Socket(host, port); //Socket = connecter til en server (host og porten som er angitt)
+    public HttpPostClient(String host, int port, String requestTarget, String contentBody) throws IOException {
+        Socket socket = new Socket(host, port);
 
         String request = "GET " + requestTarget + " HTTP/1.1\r\n" +
                 "Host: " + host + "\r\n" +
@@ -23,13 +22,5 @@ public class HttpClient {
 
     public int getStatusCode() {
         return statusCode;
-    }
-
-    public String getHeader(String headerName) {
-        return httpMessage.headerFields.get(headerName);
-    }
-
-    public String getMessageBody() {
-        return httpMessage.messageBody;
     }
 }

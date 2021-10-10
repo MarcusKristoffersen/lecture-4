@@ -17,6 +17,7 @@ public class HttpServer {
     private final ServerSocket serverSocket;
     private Path rootDirectory;
     private List<String> roles = new ArrayList<>();
+    private List<Person> people;
 
     public HttpServer(int serverPort) throws IOException {
         serverSocket = new ServerSocket(serverPort);
@@ -175,5 +176,9 @@ public class HttpServer {
 
     public void setRoles(List<String> roles) {
         this.roles = roles;
+    }
+
+    public List<Person> getPeople() {
+        return people;
     }
 }

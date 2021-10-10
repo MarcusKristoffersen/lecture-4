@@ -38,6 +38,13 @@ public class HttpServerTest {
     }
 
     @Test
+    void shouldHandleMoreThanOneRequest() throws IOException {
+        HttpServer server = new HttpServer(0);
+        assertEquals(200, new HttpClient("localhost", server.getPort(), "/hello").getStatusCode());
+        assertEquals(200, new HttpClient("localhost", server.getPort(), "/hello").getStatusCode());
+    }
+
+    @Test
     void shouldEchoQueryParameter() throws IOException {
             HttpServer server = new HttpServer(0);
             HttpClient client = new HttpClient("localhost", server.getPort(), "/hello?yourName=marcus");
@@ -68,5 +75,4 @@ public class HttpServerTest {
         assertEquals("text/html", client.getHeader("Content-Type"));
 
     }
-
 }

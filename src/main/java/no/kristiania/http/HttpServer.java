@@ -80,8 +80,6 @@ public class HttpServer {
             return;
         }
 
-
-
         String responseText = "File not found: " + requestTarget;
 
         String response = "HTTP/1.1 404 Not found\r\n" +
@@ -103,7 +101,8 @@ public class HttpServer {
     }
 
     public static void main(String[] args) throws IOException {
-        HttpServer httpServer = new HttpServer(1997); //localhost:1997/hello
+        HttpServer httpServer = new HttpServer(1962); //localhost:1997/hello
+        httpServer.setRoles(List.of("Student", "Teaching assistant", "Teacher"));
         httpServer.setRoot(Paths.get("."));
         ////Sette opp en webserver
         ////Kommenterer ut dette siden jeg har lagd en serverSocket aka website.

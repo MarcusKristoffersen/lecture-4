@@ -19,6 +19,7 @@ public class HttpServer {
         new Thread(this::handleClients).start();
     }
 
+    //handle more clients
     private void handleClients() {
         try {
             while (true) {
@@ -28,6 +29,7 @@ public class HttpServer {
             e.printStackTrace();
         }
     }
+    //handle more clients stengt. Har extracted metoden under
 
     private void handleClient() throws IOException {
         Socket clientSocket = serverSocket.accept();
@@ -69,6 +71,7 @@ public class HttpServer {
             String response = "HTTP/1.1 200 OK\r\n" +
                     "Content-Length: " + responseText.length() + "\r\n" +
                     "Content-Type: " + contentType + "\r\n" +
+                    "Connection: close\r\n" +
                     "\r\n" +
                     responseText;
             clientSocket.getOutputStream().write(response.getBytes());

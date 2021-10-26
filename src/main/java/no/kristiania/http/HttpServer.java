@@ -1,10 +1,10 @@
 package no.kristiania.http;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,7 +15,6 @@ public class HttpServer {
 
 
     private final ServerSocket serverSocket;
-    private Path rootDirectory;
     private List<String> roles = new ArrayList<>();
     private List<Person> people = new ArrayList<>();
 
@@ -81,8 +80,11 @@ public class HttpServer {
             writeOkResponse(clientSocket, responseText, "text/html");
         }
         else {
-        if (rootDirectory != null && Files.exists(rootDirectory.resolve(fileTarget.substring(1)))) {
-            String responseText = Files.readString(rootDirectory.resolve(fileTarget.substring(1)));
+            InputStream fileResource = getClass().getResourceAsStream(fileTarget);
+            if (fileResource != null) {
+                ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+                fileResource.transferTo(buffer);
+                String responseText = buffer.toString();
 
             String contentType = "text/plain";
             if(requestTarget.endsWith(".html")) {
@@ -126,7 +128,7 @@ public class HttpServer {
     public static void main(String[] args) throws IOException {
         HttpServer httpServer = new HttpServer(1962); //localhost:1997/hello
         httpServer.setRoles(List.of("Student", "Teaching assistant", "Teacher"));
-        httpServer.setRoot(Paths.get("."));
+
         ////Sette opp en webserver
         ////Kommenterer ut dette siden jeg har lagd en serverSocket aka website.
 //        ServerSocket serverSocket = new ServerSocket(1997);
@@ -174,11 +176,6 @@ public class HttpServer {
 
     public int getPort() {
         return serverSocket.getLocalPort();
-    }
-
-    public void setRoot(Path rootDirectory) {
-
-        this.rootDirectory = rootDirectory;
     }
 
     public void setRoles(List<String> roles) {

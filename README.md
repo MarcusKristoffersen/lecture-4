@@ -41,8 +41,8 @@ HTTP request ser ut
 
 ## Lecture 9:
 
-* [ ] Make executable JAR
-* [ ] Serve HTML from jar-file
+* [x] Make executable JAR
+* [x] Serve HTML from jar-file
 * [ ] PersonDaoTest add person in database: list
 * [ ] RoleDaoTest add person in database: list
 * [ ] /api-requestTarget => Controllers

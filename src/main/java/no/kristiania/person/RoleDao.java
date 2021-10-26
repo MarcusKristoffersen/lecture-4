@@ -10,14 +10,19 @@ import java.util.List;
 
 public class RoleDao {
 
-    private DataSource dataSource;
+    private final DataSource dataSource;
 
     public RoleDao(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
-    public void save(String roleName) {
-
+    public void save(String roleName) throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement("insert into roles (name) values (?)")) {
+                statement.setString(1, roleName);
+                statement.executeUpdate();
+            }
+        }
     }
 
     public List<String> listAll() throws SQLException {

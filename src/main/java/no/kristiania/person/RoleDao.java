@@ -18,7 +18,8 @@ public class RoleDao {
 
     public void save(String roleName) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement("insert into roles (name) values (?)")) {
+            try (PreparedStatement statement = connection.prepareStatement("insert into roles (name) values (?)"
+            )) {
                 statement.setString(1, roleName);
                 statement.executeUpdate();
             }
@@ -29,14 +30,10 @@ public class RoleDao {
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement("select * from roles")) {
                 try (ResultSet rs = statement.executeQuery()) {
-                    while (rs.next()) {
-
-                }
                     ArrayList<String> result = new ArrayList<>();
-                    while (rs.next()) {
+                    while(rs.next()) {
                         result.add(rs.getString("name"));
                     }
-
                     return result;
                 }
              }

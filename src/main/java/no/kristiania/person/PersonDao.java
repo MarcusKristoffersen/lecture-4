@@ -2,6 +2,8 @@ package no.kristiania.person;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PersonDao {
     private DataSource dataSource;
@@ -41,13 +43,32 @@ public class PersonDao {
                 try (ResultSet rs = statement.executeQuery()) {
                     rs.next();
 
-                    Person person = new Person();
-                    person.setId(rs.getLong("id"));
-                    person.setFirstName(rs.getString("first_name"));
-                    person.setLastName(rs.getString("last_name"));
-                    return person;
+                    return readFromResultSet(rs);
                 }
             }
         }
+    }
+
+    public List<Person> listAll() throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement("select * from people")) {
+
+                try (ResultSet rs = statement.executeQuery()) {
+                    ArrayList<Person> result = new ArrayList<>();
+                    while (rs.next()) {
+                        result.add(readFromResultSet(rs));
+                    }
+                    return result;
+                }
+            }
+        }
+    }
+
+    private Person readFromResultSet(ResultSet rs) throws SQLException {
+        Person person = new Person();
+        person.setId(rs.getLong("id"));
+        person.setFirstName(rs.getString("first_name"));
+        person.setLastName(rs.getString("last_name"));
+        return person;
     }
 }

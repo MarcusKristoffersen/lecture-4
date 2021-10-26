@@ -43,8 +43,8 @@ HTTP request ser ut
 
 * [x] Make executable JAR
 * [x] Serve HTML from jar-file
+* [x] RoleDaoTest add person in database: list
 * [ ] PersonDaoTest add person in database: list
-* [ ] RoleDaoTest add person in database: list
 * [ ] /api-requestTarget => Controllers
 * [ ] Password in properties-file
 

@@ -34,7 +34,7 @@ HTTP request ser ut
 ## Lecture 6:
 
 * [x] styling
-* [x] handle more than one reques
+* [x] handle more than one request
 * [x] GET requests with more than one field
 * [x] Refactor -> HttpMessage class
 * [x] Process POST request from form
@@ -44,7 +44,7 @@ HTTP request ser ut
 * [x] Make executable JAR
 * [x] Serve HTML from jar-file
 * [x] RoleDaoTest add person in database: list
-* [ ] PersonDaoTest add person in database: list
+* [x] PersonDaoTest add person in database: list
 * [ ] /api-requestTarget => Controllers
 * [ ] Password in properties-file
 

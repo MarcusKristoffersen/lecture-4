@@ -1,13 +1,18 @@
 package no.kristiania.http;
 
 import no.kristiania.person.Person;
+import no.kristiania.person.RoleDao;
+import org.flywaydb.core.Flyway;
+import org.postgresql.ds.PGSimpleDataSource;
 
+import javax.sql.DataSource;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,8 +22,8 @@ public class HttpServer {
 
 
     private final ServerSocket serverSocket;
-    private List<String> roles = new ArrayList<>();
     private List<Person> people = new ArrayList<>();
+    private RoleDao roleDao;
 
     public HttpServer(int serverPort) throws IOException {
         serverSocket = new ServerSocket(serverPort);
@@ -32,13 +37,13 @@ public class HttpServer {
             while (true) {
                 handleClient();
             }
-        } catch (IOException e) {
+        } catch (IOException | SQLException e) {
             e.printStackTrace();
         }
     }
     //handle more clients stengt. Har extracted metoden under
 
-    private void handleClient() throws IOException {
+    private void handleClient() throws IOException, SQLException {
         Socket clientSocket = serverSocket.accept();
 
         HttpMessage httpMessage = new HttpMessage(clientSocket);
@@ -75,7 +80,7 @@ public class HttpServer {
             String responseText = "";
 
             int value = 1;
-            for (String role : roles) {
+            for (String role : roleDao.listAll()) {
                 responseText += "<option value=" + (value++) + ">" + role + "</option>";
             }
 
@@ -128,8 +133,9 @@ public class HttpServer {
     }
 
     public static void main(String[] args) throws IOException {
-        HttpServer httpServer = new HttpServer(1962); //localhost:1997/hello
-        httpServer.setRoles(List.of("Student", "Teaching assistant", "Teacher"));
+        HttpServer httpServer = new HttpServer(1963); //localhost:1997/hello
+        httpServer.setRoleDao(new RoleDao(createDataSource()));
+        System.out.println("http://localhost:" + httpServer.getPort() + "/index.html");
 
         ////Sette opp en webserver
         ////Kommenterer ut dette siden jeg har lagd en serverSocket aka website.
@@ -176,12 +182,21 @@ public class HttpServer {
 //        ).getBytes());
     }
 
+    private static DataSource createDataSource() {
+        PGSimpleDataSource dataSource = new PGSimpleDataSource();
+        dataSource.setUrl("jdbc:postgresql://localhost:5432/person_db");
+        dataSource.setUser("person_dbuser");
+        dataSource.setPassword("z=jNE9MY=f5^$WfK5/");
+        Flyway.configure().dataSource(dataSource).load().migrate();
+        return dataSource;
+    }
+
     public int getPort() {
         return serverSocket.getLocalPort();
     }
 
-    public void setRoles(List<String> roles) {
-        this.roles = roles;
+    public void setRoleDao(RoleDao roleDao) {
+        this.roleDao = roleDao;
     }
 
     public List<Person> getPeople() {
